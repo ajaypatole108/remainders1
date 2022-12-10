@@ -242,7 +242,6 @@ def send_outstanding_mail():
 				frappe.db.commit()
 				break
 
-
 @frappe.whitelist()
 def update_email_id(customer_name1,email_id):
 	print('customer_name: ',customer_name1,email_id)
