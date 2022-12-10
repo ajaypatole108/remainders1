@@ -12,7 +12,7 @@ app_license = "MIT"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/remainders/css/remainders.css"
-# app_include_js = "/assets/remainders/js/remainders.js"
+app_include_js = "/assets/remainders/js/close_sales_order.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/remainders/css/remainders.css"
@@ -29,7 +29,7 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"Sales Order" : "public/js/so_email_update.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -114,21 +114,21 @@ app_license = "MIT"
 # ---------------
 
 # scheduler_events = {
-#	"all": [
-#		"remainders.tasks.all"
-#	],
-#	"daily": [
-#		"remainders.tasks.daily"
-#	],
-#	"hourly": [
-#		"remainders.tasks.hourly"
-#	],
-#	"weekly": [
-#		"remainders.tasks.weekly"
-#	],
-#	"monthly": [
-#		"remainders.tasks.monthly"
-#	],
+# 	 "all": [
+# 		"remainders.tasks.all"
+# 	 ],
+# 	"daily": [
+# 		"remainders.remainders.remainder_automation.outstanding.send_outstanding_mail"
+# 	],
+# 	"hourly": [
+# 		"remainders.tasks.hourly"
+# 	],
+# 	"weekly": [
+# 		"remainders.tasks.weekly"
+# 	],
+# 	"monthly": [
+# 		"remainders.tasks.monthly"
+# 	],
 # }
 
 # Testing

@@ -1,0 +1,40 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2022-12-06 14:35:28.164448",
+ "disable_prepared_report": 1,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{}",
+ "modified": "2022-12-08 13:06:40.139716",
+ "modified_by": "Administrator",
+ "module": "remainders",
+ "name": "Ordered Items To Be Delivered",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "select \n `tabSales Order`.`name` as \"Sales Order:Link/Sales Order:120\",\n CONCAT('<button style=\"background-color:#318AD8 ; margin:10px,10px,5px,5px; border-radius: 9px; text-decoration: none; height:22px; width:70px; border: none; text-align: center;\" type=''button'' data=''', `tabSales Order`.name ,''' onClick=''erpnext.close_so(this.getAttribute(\"data\"))''>Close</button>') as \"Close SO:Data:90\",\n `tabSales Order`.`po_no` as \"Customer Po No:200\",\n `tabSales Order`.`po_date` as \"Customer Po Date:Date\",\n `tabSales Order`.`customer` as \"Customer:Link/Customer:120\",\n `tabSales Order`.`transaction_date` as \"Date:Date\",\n `tabSales Order Item`.item_code as \"Item:Link/Item:120\",\n `tabSales Order Item`.description as \"Description::200\",\n `tabSales Order Item`.qty as \"Qty:Float:140\",\n `tabSales Order Item`.delivered_qty as \"Delivered Qty:Float:140\", \n(`tabSales Order Item`.qty - ifnull(`tabSales Order Item`.delivered_qty, 0)) as \"Qty to Deliver:Float:140\",\n `tabSales Order Item`.base_rate as \"Rate:Float:140\",\n `tabSales Order Item`.amount as \"Amount:Float:140\",\n (select SUM(`tabBin`.actual_qty) from tabBin WHERE tabBin.warehouse in (select name from tabWarehouse WHERE tabWarehouse.parent_warehouse = \"WAGHOLI BIN RACK - DBTPL\") and tabBin.item_code = `tabSales Order Item`.item_code) as \"Wagholi Stock:Float:140\",\n (select SUM(`tabBin`.actual_qty) from tabBin WHERE tabBin.warehouse = \"Pune - DBTPL\" and tabBin.item_code = `tabSales Order Item`.item_code) as \"Pune Stock:Float:140\",\n (select SUM(`tabBin`.actual_qty) from tabBin WHERE tabBin.warehouse in (select name from tabWarehouse WHERE tabWarehouse.parent_warehouse = \"PIMPRI BIN RACK - DBTPL\") and tabBin.item_code = `tabSales Order Item`.item_code) as \"Pimpri Stock:Float:140\",\n (select SUM(`tabBin`.actual_qty) from tabBin WHERE tabBin.warehouse in (select name from tabWarehouse WHERE tabWarehouse.parent_warehouse = \"MAHAPE BIN RACK - DBTPL\") and tabBin.item_code = `tabSales Order Item`.item_code) as \"Mahape Stock:Float:140\",\n `tabSales Order Item`.item_group as \"Item Group:Link/Item Group:120\"\n from `tabSales Order` \n JOIN `tabSales Order Item` on `tabSales Order Item`.`parent` = `tabSales Order`.`name` \n JOIN `tabCustomer` on `tabCustomer`.`name` = `tabSales Order`.`customer`\n WHERE  `tabSales Order`.docstatus = 1  and `tabSales Order`.status not in (\"Stopped\", \"Closed\") and ifnull(`tabSales Order Item`.delivered_qty,0) < ifnull(`tabSales Order Item`.qty,0)\n order by `tabSales Order`.transaction_date asc",
+ "ref_doctype": "Sales Order",
+ "report_name": "Ordered Items To Be Delivered",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Sales User"
+  },
+  {
+   "role": "Sales Manager"
+  },
+  {
+   "role": "Maintenance User"
+  },
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Stock User"
+  }
+ ]
+}
