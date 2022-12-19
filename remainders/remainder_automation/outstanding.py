@@ -5,7 +5,10 @@ import frappe.utils
 from frappe.utils import cint, cstr, flt, getdate, nowdate
 from datetime import datetime
 from frappe.desk import query_report
+from frappe.model.mapper import get_mapped_doc
 from six import string_types
+import json
+from pytz import timezone
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Font,Alignment
@@ -247,3 +250,54 @@ def update_email_id(customer_name1,email_id):
 	print('customer_name: ',customer_name1,email_id)
 
 	frappe.db.set_value('Customer',customer_name1,'email_id1',email_id)
+
+
+# @frappe.whitelist()
+# def make_delivery_note(source_name, target_doc=None, skip_item_mapping=False):
+# 	print('source_name: ',source_name)
+
+# 	mapper = {
+# 		"Sales Order": {"doctype": "Delivery Note", "validation": {"docstatus": ["=", 1]}},
+# 		"Sales Taxes and Charges": {"doctype": "Sales Taxes and Charges", "add_if_empty": True},
+# 		"Sales Team": {"doctype": "Sales Team", "add_if_empty": True},
+# 	}
+
+# 	mapper["Sales Order Item"] = {
+# 		"doctype": "Delivery Note Item",
+# 		"field_map": {
+# 			"rate": "rate",
+# 			"name": "so_detail",
+# 			"parent": "against_sales_order",
+# 		},
+# 	}
+
+# 	target_doc = get_mapped_doc("Sales Order", source_name, mapper, target_doc)
+
+# 	target_doc.set_onload("ignore_price_list", True)
+
+# 	return target_doc
+
+@frappe.whitelist()
+def fetch_dispatch_data(name):
+	so_data = frappe.db.sql(f"""
+								SELECT modified as date, name, po_no, customer
+								FROM
+								 `tabSales Order`
+								WHERE
+								name = '{name}'
+							""",as_dict=1)
+	data = {}
+	if len(so_data)!=0:
+		for i in so_data:
+			data['name'] = i.name
+			data['customer'] = i.customer
+
+			if i.po_no == None:
+				data['po_no'] = 'Not Available'
+			else:
+				data['po_no'] = i.po_no
+
+			data['date']=i.date
+
+	print(data)
+	return data

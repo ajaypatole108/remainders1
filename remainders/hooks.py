@@ -12,9 +12,9 @@ app_license = "MIT"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/remainders/css/remainders.css"
-app_include_js = "/assets/remainders/js/close_sales_order.js"
+app_include_js = "/assets/remainders/js/dispatch123.js"
 
-# include js, css files in header of web template
+# include js, css files in header of web  
 # web_include_css = "/assets/remainders/css/remainders.css"
 # web_include_js = "/assets/remainders/js/remainders.js"
 
